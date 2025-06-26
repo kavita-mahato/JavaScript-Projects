@@ -4,18 +4,19 @@
   box-sizing: border box;
 }
 body {
-  background-color: #f5efe6;
+  background-color: #E0F7FA;
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
   padding: 1rem;
+  color: #263238;
 }
 .container {
   background-color: white;
   border-radius: 1rem;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  width: 100%;
+  width: 50%;
   max-width: 600%;
   overflow: hidden;
   position: relative;
@@ -33,8 +34,22 @@ body {
 }
 
 /* START SCREEN */
+#question-text {
+  color: #004D40; 
+  font-size: 1.5rem;
+  font-weight: 600;
+  background-color: #E0F2F1; 
+  padding: 15px 20px;
+  border-left: 6px solid #008080;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  text-align: left;
+  line-height: 1.6;
+  transition: all 0.3s ease;
+}
+
 #start-screen h1 {
-  color: #e86a33;
+  color: #008080;
   margin-bottom: 20px;
   font-size: 2.5rem;
 }
@@ -52,11 +67,20 @@ body {
   margin-bottom: 1rem;
   line-height: 1.4;
 }
+.quiz-info p {
+  margin: 0;
+  white-space: nowrap;
+}
 .quiz-info {
   display: flex;
   justify-content: space-between;
   color: #666;
   margin-bottom: 10px;
+  align-items: center;
+}
+.quiz-nav{
+  display: flex;
+  justify-content: space-between;
 }
 .answers-container {
   display: flex;
@@ -65,46 +89,51 @@ body {
   margin-bottom: 25px;
 }
 .answer-btn {
-  background-color: #f8f0e5;
-  color: #333;
-  border: 2px solid #eadbc8;
+  background-color: #E0F2F1;
+  color: #004D40;
+  border: 2px solid #B2DFDB;
   border-radius: 10px;
   padding: 1 rem;
   cursor: pointer;
   text-align: left;
   transition: all 0.3s ease;
 }
+.answer-btn.selected {
+  background-color: #89d6ce;
+  border-color: #00796B;
+  color: white;
+}
 .answer-btn:hover {
   background-color: #eabdc8;
   border-color: #dac0ae;
 }
 .answer-btn.correct {
-  background-color: #e6fff0;
-  border-color: #a3f0c4;
-  color: #28a745;
+  background-color: #abf8ca;
+  border-color: #045025;
+  color: darkgreen;
 }
 .answer-btn.incorrect {
-  background-color: #fff0f0;
-  border-color: #ffbdbd;
-  color: #dc3545;
+  background-color: #f1bfbe;
+  border-color: #B71C1C;
+  color: darkred;
 }
 .progress-bar {
   height: 10px;
-  background-color: #f8f0e5;
+  background-color: #B2DFDB;
   border-radius: 5px;
   overflow: hidden;
   margin-top: 20px;
 }
 .progress {
   height: 100%;
-  background-color: #e86a33;
+  background-color: #008080;
   width: 0%;
   transition: width 0.3s ease;
 }
 
 /* REUSLT SCREEN */
 #result-screen h1 {
-  color: #e86a33;
+  color: #008080;
   margin-bottom: 30px;
 }
 .result-info {
@@ -126,10 +155,10 @@ body {
 #result-message {
   font-size: 1.5rem;
   font-weight: 600;
-  color: #e86a33;
+  color: #008080;
 }
 button {
-  background-color: #e86a33;
+  background-color: #008080;
   color: white;
   border: none;
   border-radius: 10px;
@@ -140,7 +169,7 @@ button {
   /* min-width: 150px; */
 }
 button:hover { 
-    background-color: #d45b28;
+    background-color: #338b7d;
 }
 
 /* RESPONSIVE DESIGN */

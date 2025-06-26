@@ -14,6 +14,11 @@ const resultMessage = document.getElementById("result-message");
 const restartButton = document.getElementById("restart-btn");
 const progressBar = document.getElementById("progress");
 
+// Added by me
+const saveNextButton = document.getElementById("save-next-btn");
+const skipButton = document.getElementById("skip-btn");
+const previousButton = document.getElementById("prev-btn");
+
 const quizQuestions = [
   {
     question: "What is the capital of Japan?",
@@ -73,6 +78,9 @@ maxScoreSpan.textContent = quizQuestions.length;
 // Event Listeners
 startButton.addEventListener("click", startQuiz);
 restartButton.addEventListener("click", restartQuiz);
+saveNextButton.addEventListener("click", doSaveAndNext);
+skipButton.addEventListener("click", doSkip);
+previousButton.addEventListener("click", doPrevious);
 
 function startQuiz() {
   // reset vars
@@ -117,31 +125,60 @@ function showQuestion() {
 }
 
 function selectAnswer(event) {
-   if(answersDisabled) return
-   answersDisabled = true;
-   const selectedButton = event.target;
-   const isCorrect = selectedButton.dataset.correct == 'true';
+  if (answersDisabled) return;
 
-   Array.from(answersContainer.children).forEach(button => {
-    if(button.dataset.correct === 'true'){
-        button.classList.add("correct")
-    }else{
-        button.classList.add("incorrect");
-    }
-   });
-   if(isCorrect){
-    score ++;
-    scoreSpan.textContent = score;
-   }
-   setTimeout(() => {
-    currentQuestionIndex ++;
-    if(currentQuestionIndex < quizQuestions.length){
-        showQuestion();
-    }else{
-        showResults();
-    }
-   },1000)
+  // Clear previous selection
+  Array.from(answersContainer.children).forEach(button => {
+    button.classList.remove("selected");
+  });
+
+  // Store selected button
+  selectedButton = event.target;
+  selectedButton.classList.add("selected");
 }
+
+function doSaveAndNext() {
+  if (!selectedButton || answersDisabled) return;
+
+  answersDisabled = true;
+
+  const isCorrect = selectedButton.dataset.correct === 'true';
+
+  // Highlight selected options
+  Array.from(answersContainer.children).forEach(button => {
+    button.classList.remove("selected"); // Remove selection
+    if (button.dataset.correct === 'true') {
+      button.classList.add("correct");
+    } else {
+      button.classList.add("incorrect");
+    }
+  });
+
+  if (isCorrect) {
+    score++;
+    scoreSpan.textContent = score;
+  }
+
+  setTimeout(() => {
+    currentQuestionIndex++;
+    selectedButton = null;
+    if (currentQuestionIndex < quizQuestions.length) {
+      showQuestion();
+    } else {
+      showResults();
+    }
+  }, 1000);
+}
+
+function doSkip(){
+  currentQuestionIndex++;
+  showQuestion();
+}
+function doPrevious(){
+  currentQuestionIndex--;
+  showQuestion();
+}
+
 
 function showResults(){
     quizScreen.classList.remove("active");
