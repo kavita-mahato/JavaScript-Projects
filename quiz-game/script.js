@@ -28,6 +28,8 @@ const quizQuestions = [
       { text: "Tokyo", correct: true },
       { text: "Madrid", correct: false },
     ],
+    answered: false,
+    selectedIndex: null
   },
   {
     question: "How many days are in a leap year?",
@@ -37,6 +39,8 @@ const quizQuestions = [
       { text: "365", correct: false },
       { text: "378", correct: false },
     ],
+    answered: false,
+    selectedIndex: null
   },
   {
     question: "What is the largest ocean on Earth?",
@@ -46,6 +50,8 @@ const quizQuestions = [
       { text: "Arctic Ocean", correct: false },
       { text: "Pacific Ocean", correct: true },
     ],
+    answered: false,
+    selectedIndex: null
   },
   {
     question: "What gas do plants absorb from the atmosphere?",
@@ -55,6 +61,8 @@ const quizQuestions = [
       { text: "Helium", correct: false },
       { text: "Carbon Dioxide", correct: true },
     ],
+    answered: false,
+    selectedIndex: null
   },
   {
     question: "What is the currency of India?",
@@ -64,6 +72,8 @@ const quizQuestions = [
       { text: "Rupee", correct: true },
       { text: "Dollar", correct: false },
     ],
+    answered: false,
+    selectedIndex: null
   },
 ];
 
@@ -71,6 +81,7 @@ const quizQuestions = [
 let currentQuestionIndex = 0;
 let score = 0;
 let answersDisabled = false;
+let selectedButton = null;
 
 totalQuestionsSpan.textContent = quizQuestions.length;
 maxScoreSpan.textContent = quizQuestions.length;
@@ -83,42 +94,49 @@ skipButton.addEventListener("click", doSkip);
 previousButton.addEventListener("click", doPrevious);
 
 function startQuiz() {
-  // reset vars
   score = 0;
   currentQuestionIndex = 0;
   scoreSpan.textContent = 0;
-
+  quizQuestions.forEach(q => {
+    q.answered = false;
+    q.selectedIndex = null;
+  });
   startScreen.classList.remove("active");
   quizScreen.classList.add("active");
-
   showQuestion();
 }
 
+
 function showQuestion() {
-  //reset state
-  answersDisabled = false;
-
   const currentQuestion = quizQuestions[currentQuestionIndex];
+  answersDisabled = currentQuestion.answered;
 
+  questionText.textContent = currentQuestion.question;
   currentQuestionSpan.textContent = currentQuestionIndex + 1;
-
   const progressPercent = (currentQuestionIndex / quizQuestions.length) * 100;
   progressBar.style.width = progressPercent + "%";
 
-  questionText.textContent = currentQuestion.question;
-
-  // Clear previous answers
   answersContainer.innerHTML = "";
+  selectedButton = null;
 
-  // Create answer buttons
-  currentQuestion.answers.forEach((answer) => {
+  currentQuestion.answers.forEach((answer, index) => {
     const button = document.createElement("button");
     button.textContent = answer.text;
     button.classList.add("answer-btn");
-    // button.disabled = false;
     button.dataset.correct = answer.correct;
 
-    button.addEventListener("click",selectAnswer);
+    if (currentQuestion.answered) {
+      if (currentQuestion.selectedIndex === index) {
+        if (answer.correct === true) {
+          button.classList.add("correct");
+        } else {
+          button.classList.add("incorrect");
+        }
+      }
+      button.disabled = true;
+    } else {
+      button.addEventListener("click", selectAnswer);
+    }
 
     answersContainer.appendChild(button);
   });
@@ -127,12 +145,10 @@ function showQuestion() {
 function selectAnswer(event) {
   if (answersDisabled) return;
 
-  // Clear previous selection
   Array.from(answersContainer.children).forEach(button => {
     button.classList.remove("selected");
   });
 
-  // Store selected button
   selectedButton = event.target;
   selectedButton.classList.add("selected");
 }
@@ -140,28 +156,31 @@ function selectAnswer(event) {
 function doSaveAndNext() {
   if (!selectedButton || answersDisabled) return;
 
+  const currentQuestion = quizQuestions[currentQuestionIndex];
+
+  currentQuestion.answered = true;
+  currentQuestion.selectedIndex = Array.from(answersContainer.children).indexOf(selectedButton);
+
   answersDisabled = true;
 
   const isCorrect = selectedButton.dataset.correct === 'true';
-
-  // Highlight selected options
-  Array.from(answersContainer.children).forEach(button => {
-    button.classList.remove("selected"); // Remove selection
-    if (button.dataset.correct === 'true') {
-      button.classList.add("correct");
-    } else {
-      button.classList.add("incorrect");
-    }
-  });
-
   if (isCorrect) {
     score++;
     scoreSpan.textContent = score;
   }
 
+  Array.from(answersContainer.children).forEach((button, index) => {
+    button.classList.remove("selected");
+    if (button.dataset.correct === 'true') {
+      button.classList.add("correct");
+    } else {
+      button.classList.add("incorrect");
+    }
+    button.disabled = true;
+  });
+
   setTimeout(() => {
     currentQuestionIndex++;
-    selectedButton = null;
     if (currentQuestionIndex < quizQuestions.length) {
       showQuestion();
     } else {
@@ -170,36 +189,42 @@ function doSaveAndNext() {
   }, 1000);
 }
 
-function doSkip(){
-  currentQuestionIndex++;
-  showQuestion();
+function doSkip() {
+  if (currentQuestionIndex < quizQuestions.length - 1) {
+    currentQuestionIndex++;
+    showQuestion();
+  } else {
+    showResults();
+  }
 }
-function doPrevious(){
-  currentQuestionIndex--;
-  showQuestion();
+
+function doPrevious() {
+  if (currentQuestionIndex > 0) {
+    currentQuestionIndex--;
+    showQuestion();
+  }
 }
 
+function showResults() {
+  quizScreen.classList.remove("active");
+  resultScreen.classList.add("active");
 
-function showResults(){
-    quizScreen.classList.remove("active");
-    resultScreen.classList.add("active");
+  finalScoreSpan.textContent = score;
 
-    finalScoreSpan.textContent = score;
+  const percentage = (score / quizQuestions.length) * 100;
 
-    const percentage = (score/quizQuestions.length) * 100;
-
-    if(percentage === 100){
-        resultMessage.textContent = "Perfect!"; 
-    }else if (percentage >=70){
-        resultMessage.textContent = "Keep it up";
-    }else if (percentage >= 40){
-        resultMessage.textContent = "You can do better";
-    }else{
-        resultMessage.textContent = "Handwork needed";
-    }
+  if (percentage === 100) {
+    resultMessage.textContent = "Perfect!";
+  } else if (percentage >= 70) {
+    resultMessage.textContent = "Keep it up";
+  } else if (percentage >= 40) {
+    resultMessage.textContent = "You can do better";
+  } else {
+    resultMessage.textContent = "Hard work needed";
+  }
 }
 
 function restartQuiz() {
- resultScreen.classList.remove("active");
- startQuiz();
+  resultScreen.classList.remove("active");
+  startQuiz();
 }
