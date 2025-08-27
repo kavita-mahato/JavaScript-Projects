@@ -43,6 +43,7 @@ ul li{
 .options{
     color: black;
 }
+
 /* Search bar */
 .search-bar {
   position: relative;
@@ -180,7 +181,7 @@ body::before {
 /* Loading dots */
 .dots {
   display: inline-block;
-  font-size: 20px;
+  font-size: 24px;
   letter-spacing: 3px;
 }
 
@@ -200,4 +201,46 @@ body::before {
   0% { opacity: 0.2; }
   50% { opacity: 1; }
   100% { opacity: 0.2; }
+}
+
+.reaction {
+  position: relative;   /* fixes it to bottom-left inside joke-box */
+
+  display: flex;        /* aligns children horizontally */
+  gap: 20px;
+  align-items: center;
+}
+
+.like, .dislike, .favorites .saves{
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  gap: 5px;
+}
+
+.favorites{
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  bottom: 10px;
+  left: 10px;
+}
+.favorites h3 {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  font-size: 14px; /* make it smaller so it fits nicely */
+}
+.saves{
+  position: absolute;
+  display: flex;
+  flex-direction: row-reverse;
+  bottom: 10px;
+  right: 10px;
+}
+.saves h3 {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  font-size: 14px; /* make it smaller so it fits nicely */
 }

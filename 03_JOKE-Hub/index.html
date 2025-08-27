@@ -1,32 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Joke Hub</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
-      integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
-    <link rel="stylesheet" href="style.css" />
-    <script src="script.js" defer></script>
-  </head>
-  <body>
-    <header>
-      <nav class="navbar">
-        <div class="nav-logo">
-          <a class="logo" href="#">
-            <img src="logo.jpg" alt="Logo" class="logo-img" />
-            Joke Hub
-          </a>
-        </div>
-        <div class="nav-bar=items">
-          <ul class="nav-items">
-            <li class="nav-item">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Joke Hub</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+  <script src="script.js" defer></script>
+</head>
+
+<body>
+  <header>
+    <nav class="navbar">
+      <div class="nav-logo">
+        <a class="logo" href="#">
+          <img src="logo.jpg" alt="Logo" class="logo-img" />
+          Joke Hub
+        </a>
+      </div>
+      <div class="nav-bar=items">
+        <ul class="nav-items">
+          <li class="nav-item">
             <span class="material-symbols-outlined options">home</span>
             <a class="nav-link" href="#">Home</a>
           </li>
@@ -46,22 +44,51 @@
             <span class="material-symbols-outlined options">note_stack</span>
             <a class="nav-link" href="#">More</a>
           </li>
-          </ul>
-        </div>
-        <div class="search-bar">
-          <form>
-            <div class="search-container">
-              <input class="search" type="search" placeholder="Search" />
-              <i class="fa-solid fa-magnifying-glass"></i>
-            </div>
-          </form>
-        </div>
-      </nav>
-    </header>
-    <div class="joke-box">
-      <div class="jokes"></div>
-      <div class="text">Get Ready to Laugh Out Loud</div>
-      <div class="textjoke">Click here to generate random joke</div>
+        </ul>
+      </div>
+      <div class="search-bar">
+        <form>
+          <div class="search-container">
+            <input class="search" type="search" placeholder="Search" />
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </div>
+        </form>
+      </div>
+    </nav>
+  </header>
+  <div class="joke-box">
+    <div class="jokes"></div>
+    <div class="text">Get Ready to Laugh Out Loud</div>
+    <div class="textjoke">Click here to generate random joke</div>
+    <!-- Like/Dislike Buttons -->
+    <div class="reaction">
+      <div class="like">
+        <span class="material-symbols-outlined">thumb_up</span>
+        <span class="react">Like</span>
+      </div>
+      <div class="dislike">
+        <span class="material-symbols-outlined">thumb_down</span>
+        <span class="react">Dislike</span>
+      </div>
     </div>
-  </body>
+
+    <!-- Favorites Section -->
+    <div class="favorites">
+      <span class="material-symbols-outlined">favorite</span>
+      <h3>Add to favorites</h3>
+      <ul id="favList"></ul>
+    </div>
+    
+    <!-- Save Joke -->
+    <div class="saves">
+      <span class="material-symbols-outlined">bookmark</span>
+      <h3>Save to collections</h3>
+      <ul id="saveList"></ul>
+    </div>
+    
+  </div>
+  </div>
+
+</body>
+
 </html>
